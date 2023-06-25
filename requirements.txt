@@ -4,4 +4,4 @@ mediapipe==0.9.0.1
 numpy==1.21.6
 opencv-contrib-python==4.7.0.72
 opencv-python==4.7.0.68
-Flask==2.3.2
+Flask==2.2.5
