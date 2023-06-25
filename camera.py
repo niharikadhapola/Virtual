@@ -6,7 +6,7 @@ class VideoCamera(object):
         self.video=cv2.VideoCapture(0)
 
     def __del__(self):
-        self.video.releast() 
+        self.video.release() 
 
     def get_frame(self):
         ret,frame=self.video.read()
