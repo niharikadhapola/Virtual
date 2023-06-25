@@ -23,12 +23,9 @@ TEXT_BOX_FONT = 5
 BOX_COOR = [(50, 350), (700, 450), (60, 425)]
 Resolution_w, Resolution_h = 1280, 720
 
-try:
-    video_feed = cv2.VideoCapture(0)
-    video_feed.set(3, Resolution_w)
-    video_feed.set(4, Resolution_h)
-except cv2.error as e:
-    print(f"Error opening camera: {e}")
+video_feed = cv2.VideoCapture(0)
+video_feed.set(3, Resolution_w)
+video_feed.set(4, Resolution_h)
 
 handDetector = handTracking.HandDetector(
     detectionCon=DETECTION_CONFIDENCE, maxHands=NO_OF_HANDS)
@@ -39,8 +36,7 @@ qwerty_layout = {
     "2": ["A", "S", "D", "F", "G", "H", "J", "K", "L", ";"],
     "3": ["Z", "X", "C", "V", "B", "N", "M", ",", ".", "/", "<"]
 }
-querty_keyboard = [qwerty_layout["1"], qwerty_layout["2"], qwerty_layout["3"]]
-textbox_string = ""
+qwerty_keyboard = [qwerty_layout["1"], qwerty_layout["2"], qwerty_layout["3"]]
 
 
 class Buttons():
@@ -51,10 +47,10 @@ class Buttons():
 
 
 x = 0
-while x < len(querty_keyboard):
+while x < len(qwerty_keyboard):
     j = 0
-    while j < len(querty_keyboard[x]):
-        key = querty_keyboard[x][j]
+    while j < len(qwerty_keyboard[x]):
+        key = qwerty_keyboard[x][j]
         list_buttons.append(Buttons([100 * j + 50, 100 * x + 50], key))
         j += 1
     x += 1
@@ -74,14 +70,11 @@ def display_buttons(image, list_buttons):
 
 
 def gen(camera):
+    textbox_string = ""  # Initialize textbox_string variable
     while True:
-        try:
-            frame = camera.get_frame()
-            image = cv2.imdecode(np.frombuffer(frame, np.uint8), -1)
-            image = cv2.flip(image, 1)
-        except cv2.error as e:
-            print(f"Error capturing frame: {e}")
-            break
+        frame = camera.get_frame()
+        image = cv2.imdecode(np.frombuffer(frame, np.uint8), -1)
+        image = cv2.flip(image, 1)
 
         hands, bbox_Info = handDetector.findHands(image, draw=True)
         image = display_buttons(image, list_buttons)
@@ -131,10 +124,7 @@ def index():
 
 @app.route('/video_feed')
 def video_feed():
-    try:
-        return Response(gen(VideoCamera()), mimetype='multipart/x-mixed-replace; boundary=frame')
-    except Exception as e:
-        print(f"Error handling video feed request: {e}")
+    return Response(gen(VideoCamera()), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
 if __name__ == '__main__':
