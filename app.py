@@ -23,7 +23,7 @@ TEXT_BOX_FONT = 5
 BOX_COOR = [(50, 350), (700, 450), (60, 425)]
 Resolution_w, Resolution_h = 1280, 720
 
-video_feed = cv2.VideoCapture(-1)
+video_feed = cv2.VideoCapture(0)
 video_feed.set(3, Resolution_w)
 video_feed.set(4, Resolution_h)
 if not (video_feed.isOpened()):
