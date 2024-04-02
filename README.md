@@ -14,6 +14,5 @@ $ python -m pip install -r requirements.txt
 ```
 ## Run
 ```
-#### Run
 $ python app.py
 ```
